@@ -1,92 +1,313 @@
-# Real-Time ADAS Perception Pipeline from Fleet Dashcam 🚗
+<div align="center">
 
-Real-world dashcam footage from fleet platforms like Motive provides rich data for developing Advanced Driver Assistance Systems (ADAS). This project implements a real-time ADAS perception pipeline that combines state-of-the-art deep learning, metric depth estimation, and 3D spatial projection to create an advanced driver-assistance experience.
+<!-- Animated Header -->
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0D1117,50:161B22,100:00E676&height=220&section=header&text=🚗%20ADAS%20Perception%20Pipeline&fontSize=36&fontColor=FFFFFF&animation=fadeIn&fontAlignY=35&desc=Real-Time%20Advanced%20Driver%20Assistance%20System&descSize=16&descAlignY=55&descColor=8B949E" width="100%"/>
 
----
+<!-- Animated Typing -->
+<a href="#">
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&duration=3000&pause=1000&color=00E676&center=true&vCenter=true&multiline=true&repeat=true&width=700&height=100&lines=Multi-Object+Detection+%26+3D+Bounding+Boxes;Bird's-Eye-View+Pseudo-LiDAR+Visualization;Real-Time+Collision+Risk+Assessment;Metric+Depth+Estimation+%26+Lane+Tracking" alt="Typing SVG" />
+</a>
 
-## 🚀 Features
+<!-- Badges -->
+<br/>
 
-* **Multi-Object Detection & Tracking:** Real-time tracking of vehicles, pedestrians, and cycles using YOLOv8 and ByteTrack (or similar robust trackers).
-* **Metric Depth Estimation & Lane Detection:** Deep-learning based relative depth maps calibrated to metric distance ($Z$) alongside advanced lane fitting and tracking.
-* **Stabilized 3D Bounding Boxes:** 3D wireframe cuboid mapping of vehicles with dynamic distance and relative speed metrics.
-* **Bird’s-Eye-View (BEV) Pseudo-LiDAR Visualization:** Clean, flat bird's-eye-view pseudo-LiDAR projection sitting flush on a metric Cartesian ground grid.
-* **Collision Risk Assessment:** Adaptive risk calculation, color-coding safety thresholds to warn the driver instantly.
-* **Cut-In Detection & Lead Vehicle Analysis:** Lock onto the closest preceding vehicle in the ego-lane with an integrated visual status line and dynamic distance monitoring.
+![Python](https://img.shields.io/badge/Python-3.12+-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white)
+![OpenCV](https://img.shields.io/badge/OpenCV-4.x-5C3EE8?style=for-the-badge&logo=opencv&logoColor=white)
+![YOLOv8](https://img.shields.io/badge/YOLOv8-Ultralytics-00FFFF?style=for-the-badge&logo=yolo&logoColor=black)
+![Open3D](https://img.shields.io/badge/Open3D-0.18-4CAF50?style=for-the-badge&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)
 
----
+<br/>
 
-## 🛠️ System Architecture
+![Stars](https://img.shields.io/github/stars/harsh5d5/ADAS_Advanced-driver-assistance-system?style=social)
+![Forks](https://img.shields.io/github/forks/harsh5d5/ADAS_Advanced-driver-assistance-system?style=social)
 
-The pipeline consists of three core components:
+</div>
 
-1. **2D ADAS HUD (`detect_and_hud.py`):**
-   * Real-time dashboard view showing bounding boxes, lane lines, ego-speed estimation, and a HUD panel.
-   * Prominent **SAFE GO** / **CRITICAL WARNING** banner alerts.
-   * Safety line linking your vehicle to the lead vehicle (turns **red** if closer than 6m, **green** if safe).
-   
-2. **3D Projection & Generation (`point_cloud_3d.py`):**
-   * Generates flat grid-based point clouds and projects 3D vehicle cuboids based on depth estimation and 2D bounding boxes.
-   * Outputs structured binary `.ply` files to `output/pointclouds/`.
+<!-- Animated Divider -->
+<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif" width="100%">
 
-3. **Interactive 3D Point Cloud Viewer (`view_pointcloud.py`):**
-   * High-performance 3D visualizer built using Open3D.
-   * Custom camera views to step through processed frames interactively.
+## 🎯 Overview
 
----
+> **A production-grade perception pipeline that transforms raw dashcam footage into real-time 3D spatial intelligence for Advanced Driver Assistance Systems.**
 
-## 💻 Installation & Setup
+This project implements a complete ADAS perception stack using monocular camera input — no LiDAR, no radar, just a single dashcam video. The system performs real-time object detection, depth estimation, 3D bounding box projection, bird's-eye-view visualization, and collision risk assessment.
 
-1. **Clone the repository:**
-   ```bash
-   git clone <your-repository-url>
-   cd ADAS
-   ```
+<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif" width="100%">
 
-2. **Install the required dependencies:**
-   Make sure you are using Python 3.10+ (System Python 3.12 recommended for Open3D support on Windows):
-   ```bash
-   pip install numpy opencv-python ultralytics torch open3d
-   ```
+## ✨ Key Features
 
-3. **Make sure your video file `ADAS.mp4` is placed in the project root.**
+<table>
+<tr>
+<td width="50%">
 
----
+### 🔍 Detection & Tracking
+- **YOLOv8** multi-object detection (cars, trucks, buses, motorcycles, pedestrians, cyclists)
+- Persistent **track ID** assignment across frames
+- **EMA-smoothed** distance and lateral offset to eliminate jitter
 
-## 🏃 How to Run
+</td>
+<td width="50%">
 
-### 1. Run the 2D ADAS HUD (Real-Time Video Feed)
-To view the live dashboard video stream with bounding boxes, lane overlays, speed estimation, and safety banners:
+### 📏 Depth & Distance
+- **MiDaS** monocular depth estimation
+- Geometric **scale calibration** using ground plane
+- Real-world **metric distances** in meters
+- **Relative speed** computation per tracked object
+
+</td>
+</tr>
+<tr>
+<td width="50%">
+
+### 🗺️ Bird's-Eye-View HUD
+- Top-down **BEV radar panel** with semantic styling
+- Real-time road surface projection
+- **Ego vehicle** indicator with metric grid overlay
+- Color-coded vehicle markers by distance zone
+
+</td>
+<td width="50%">
+
+### 📦 3D Bounding Boxes
+- **Wireframe cuboid** projection onto flat ground plane
+- Class-based dimensions (car, truck, bus, etc.)
+- Distance-coded colors (🔴 Red → 🟠 Orange → 🔵 Blue)
+- Interactive **Open3D viewer** with frame navigation
+
+</td>
+</tr>
+<tr>
+<td width="50%">
+
+### ⚠️ Safety Alerts
+- **SAFE GO** / **CRITICAL WARNING** center-top banner
+- Flashing red overlay for emergency distances (< 3m)
+- Lead vehicle identification with triple-check validation
+- Color-coded bounding boxes (🔴 Red < 6m, 🟢 Green ≥ 6m)
+
+</td>
+<td width="50%">
+
+### 🛣️ Lane Detection
+- White and yellow lane marking detection
+- Dynamic **ego-lane boundary** tracking
+- Lane-based vehicle classification (In-lane / Adjacent / Oncoming)
+- Trapezoid ROI masking for robust detection
+
+</td>
+</tr>
+</table>
+
+<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif" width="100%">
+
+## 🏗️ System Architecture
+
+```mermaid
+graph TD
+    A[🎥 Dashcam Video Input] --> B[📐 Frame Preprocessing]
+    B --> C[🔍 YOLOv8 Detection]
+    B --> D[📏 MiDaS Depth Estimation]
+    B --> E[🛣️ Lane Detection]
+    
+    C --> F[🎯 Object Tracking & ID Assignment]
+    D --> G[⚖️ Scale Calibration]
+    G --> H[📦 3D Back-Projection]
+    
+    F --> I[🧮 Distance & Speed Computation]
+    H --> I
+    E --> J[🚗 Lead Vehicle Analysis]
+    I --> J
+    
+    J --> K[⚠️ Safety Assessment]
+    
+    I --> L[🗺️ BEV Radar HUD]
+    K --> M[🖥️ 2D Annotated Display]
+    H --> N[📊 3D Point Cloud Export]
+    
+    L --> M
+    N --> O[🔄 Interactive 3D Viewer]
+
+    style A fill:#1a1a2e,stroke:#00E676,color:#fff
+    style K fill:#1a1a2e,stroke:#FF5252,color:#fff
+    style M fill:#1a1a2e,stroke:#448AFF,color:#fff
+    style O fill:#1a1a2e,stroke:#FF9800,color:#fff
+```
+
+<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif" width="100%">
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+```bash
+Python 3.10+
+pip install ultralytics opencv-python torch open3d numpy
+```
+
+### 1️⃣ Clone the Repository
+
+```bash
+git clone https://github.com/harsh5d5/ADAS_Advanced-driver-assistance-system.git
+cd ADAS-System
+```
+
+### 2️⃣ Run the 2D ADAS HUD (Live Detection + BEV Radar)
+
 ```bash
 python detect_and_hud.py
 ```
-*Press **q** to close the window.*
 
-### 2. Generate the 3D Point Clouds
-To process the video frames and output the 3D spatial grids and bounding boxes:
+> Press **`q`** in the video window to exit.
+
+### 3️⃣ Generate 3D Point Cloud Data
+
 ```bash
 python point_cloud_3d.py
 ```
 
-### 3. Run the Interactive 3D Viewer
-To explore the generated 3D environments frame-by-frame:
+> This processes the dashcam video and generates `.ply` files with 3D bounding boxes in `output/pointclouds/`.
+
+### 4️⃣ Launch the Interactive 3D Viewer
+
 ```bash
 python view_pointcloud.py
 ```
 
-#### **3D Viewer Controls:**
-* **D** or **Right Arrow:** Next frame
-* **A** or **Left Arrow:** Previous frame
-* **Mouse Drag:** Rotate camera view
-* **Scroll Wheel:** Zoom in / out
-* **Q:** Quit viewer
+| Key | Action |
+|-----|--------|
+| `D` / `→` | Next frame |
+| `A` / `←` | Previous frame |
+| Mouse drag | Rotate view |
+| Scroll | Zoom in/out |
+| `Q` | Quit |
+
+<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif" width="100%">
+
+## 📂 Project Structure
+
+```
+ADAS/
+├── 📄 detect_and_hud.py       # Main pipeline: detection, tracking, BEV, HUD, safety alerts
+├── 📄 point_cloud_3d.py       # 3D bounding box generation & PLY export
+├── 📄 view_pointcloud.py      # Interactive Open3D point cloud viewer
+├── 📄 .gitignore              # Git exclusions for large media/model files
+├── 🎥 ADAS.mp4                # Input dashcam video (not tracked by git)
+├── 🤖 yolov8n.pt              # YOLOv8 nano weights (not tracked by git)
+└── 📁 output/
+    └── 📁 pointclouds/        # Generated .ply files with 3D bounding boxes
+```
+
+<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif" width="100%">
+
+## 🎨 Visual Outputs
+
+### 2D HUD — Real-Time Detection & Safety Assessment
+
+| Feature | Description |
+|---------|-------------|
+| 🟢 **Green Box** | Vehicle detected at safe distance (≥ 6m) |
+| 🔴 **Red Box** | Vehicle within critical proximity (< 6m) |
+| 🟡 **LEAD VEHICLE** | Closest in-lane vehicle tagged with distance label |
+| 📊 **BEV Radar** | Top-down bird's-eye-view with semantic road mapping |
+| 🏷️ **Status Banner** | Center-top **SAFE GO** or flashing **CRITICAL WARNING** |
+
+### 3D Visualization — Interactive Point Cloud Viewer
+
+| Feature | Description |
+|---------|-------------|
+| ⬜ **Ground Grid** | Dense flat grid at ground level (0.5m spacing) |
+| 🔴 **Red Wireframe** | Close object (< 5m) |
+| 🟠 **Orange Wireframe** | Medium range (5–10m) |
+| 🔵 **Blue Wireframe** | Far object (> 10m) |
+
+<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif" width="100%">
+
+## 🔬 Technical Deep-Dive
+
+### Depth Calibration Pipeline
+
+The system uses a **geometric ground-plane calibration** approach to convert MiDaS relative depth into metric distances:
+
+```
+Z_geometric = (F_Y × H_CAM) / (v_pixel - v_horizon)
+scale_factor = median(Z_geometric / MiDaS_raw)
+Z_metric = MiDaS_raw × scale_factor
+```
+
+### Lead Vehicle Detection (Triple-Check Validation)
+
+A vehicle is classified as the **lead vehicle** only when ALL three conditions are satisfied:
+
+| Check | Condition | Purpose |
+|-------|-----------|---------|
+| 🛣️ **Lane Bounds** | `left_lane ≤ x_center ≤ right_lane` | Must be inside ego-lane |
+| 📐 **Geometric** | `|X_world| < 1.2m` | Must be directly ahead |
+| 🎯 **Frame Center** | `|x_pixel - 640| < 180px` | Rejects far-off detections |
+
+### 3D Bounding Box Projection
+
+Objects are projected into 3D space using pinhole camera geometry with class-based dimensions:
+
+| Class | Length | Width | Height |
+|-------|--------|-------|--------|
+| Car | 4.0m | 1.8m | 1.5m |
+| Truck | 8.0m | 2.5m | 3.0m |
+| Bus | 10.0m | 2.5m | 3.2m |
+| Motorcycle | 2.0m | 0.8m | 1.2m |
+
+<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif" width="100%">
+
+## 💡 Use Cases
+
+<div align="center">
+
+| Use Case | Description |
+|----------|-------------|
+| 🚨 **Driver Safety Monitoring** | Real-time alerts for collision avoidance |
+| 🔍 **Incident Review** | Automated root cause analysis with 3D reconstruction |
+| 🤖 **ML Training Data** | Generate labeled 3D bounding boxes from video |
+| 🏭 **Fleet ADAS** | Aftermarket safety features for commercial vehicles |
+| 🎮 **Simulation** | Scenario replay for autonomous system validation |
+| 📈 **Risk Analytics** | Predictive safety metrics for fleet management |
+
+</div>
+
+<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif" width="100%">
+
+## 🛠️ Tech Stack
+
+<div align="center">
+
+<img src="https://skillicons.dev/icons?i=python,pytorch,opencv&theme=dark" alt="Tech Stack" />
+
+| Technology | Purpose |
+|------------|---------|
+| **Python 3.12** | Core language |
+| **YOLOv8 (Ultralytics)** | Real-time object detection |
+| **MiDaS (Intel)** | Monocular depth estimation |
+| **OpenCV** | Video processing, lane detection, HUD rendering |
+| **Open3D** | 3D point cloud visualization |
+| **PyTorch** | Deep learning inference backend |
+| **NumPy** | Numerical computation |
+
+</div>
+
+<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif" width="100%">
+
+## 📜 License
+
+This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
 
 ---
 
-## 🎯 Key Use Cases
+<div align="center">
 
-* **Real-time driver safety monitoring and event detection** – Warnings for forward collisions, tailgating, and lane departures.
-* **Automated incident review and root cause analysis** – Clear visual reconstruction of commercial fleet driving incidents.
-* **Training data generation for machine learning models** – Creating labeled 3D boxes and flat pseudo-LiDAR points from 2D camera footage.
-* **Development of aftermarket ADAS solutions** – Cost-effective ADAS implementations using standard fleet dashcams.
-* **Simulation and scenario replay** – Validating motion planning models in a synthetic 3D space.
-* **Fleet risk assessment** – Analytics based on tailgating durations, close cut-ins, and driver warnings.
+### ⭐ If you found this project useful, please give it a star!
+
+<br/>
+
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0D1117,50:161B22,100:00E676&height=120&section=footer&animation=fadeIn" width="100%"/>
+
+</div>

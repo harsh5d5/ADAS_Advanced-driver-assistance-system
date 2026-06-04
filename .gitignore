@@ -15,7 +15,3 @@ yolov8n.pt
 output/
 pointclouds/
 *.ply
-
-# Open3D temporary capture files
-ScreenCamera_*
-ScreenCapture_*

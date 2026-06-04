@@ -608,8 +608,8 @@ def main():
         ego_speed_kmh = speed_estimator.update(frame, detected_boxes_for_flow)
         ego_speed_m_s = ego_speed_kmh / 3.6
 
-        # Calculate safe distance (minimum 6m as requested)
-        safe_dist = max(6.0, (ego_speed_m_s * 2.0) + 2.0)
+        # Calculate safe distance (constant 6.0m as requested)
+        safe_dist = 6.0
 
         # --- 9.5. Draw Lead Vehicle Annotations (Part A1) ---
         if lead_vehicle_candidate is not None:
@@ -667,15 +667,15 @@ def main():
             lead_conf = int(lead_vehicle_candidate['conf'] * 100)
             
             is_safe = actual_dist >= safe_dist
-            status_text = "Following: SAFE" if is_safe else "Following: CRITICAL"
+            status_text = "Status: SAFE GO" if is_safe else "Status: CRITICAL"
             status_color = (0, 230, 118) if is_safe else (0, 0, 255)
             
             dist_text = f"Distance: {actual_dist:.1f}m"
             safe_text = f"Safe Dist: {safe_dist:.1f}m"
             conf_text = f"Conf: {lead_conf}%"
         else:
-            status_text = "Following: NO TARGET"
-            status_color = (180, 180, 180)
+            status_text = "Status: SAFE GO (NO TARGET)"
+            status_color = (0, 230, 118)
             dist_text = "Distance: --"
             safe_text = f"Safe Dist: {safe_dist:.1f}m"
             conf_text = "Conf: --"
@@ -692,6 +692,36 @@ def main():
         # Draw Status Text
         cv2.putText(frame, status_text, (block_x + 25, block_y + 12),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.55, status_color, 1, cv2.LINE_AA)
+
+        # --- 10.5. Draw Center-Top Alert Banner ---
+        if lead_vehicle_candidate is not None:
+            is_safe = lead_vehicle_candidate['distance'] >= safe_dist
+            if is_safe:
+                banner_text = "SAFE GO"
+                banner_color = (0, 230, 118)
+            else:
+                # Flash red/dark-red warning
+                banner_text = "CRITICAL WARNING"
+                banner_color = (0, 0, 255) if frame_idx % 8 < 4 else (0, 0, 150)
+        else:
+            banner_text = "SAFE GO"
+            banner_color = (0, 230, 118)
+
+        (bw, bh), _ = cv2.getTextSize(banner_text, cv2.FONT_HERSHEY_SIMPLEX, 0.7, 2)
+        bx1 = 640 - (bw // 2) - 20
+        bx2 = 640 + (bw // 2) + 20
+        by1 = 20
+        by2 = 20 + bh + 15
+
+        # Translucent background for banner
+        banner_bg = frame.copy()
+        cv2.rectangle(banner_bg, (bx1, by1), (bx2, by2), (15, 15, 15), -1)
+        cv2.addWeighted(banner_bg, 0.8, frame, 0.2, 0, frame)
+
+        # Draw colored border and text
+        cv2.rectangle(frame, (bx1, by1), (bx2, by2), banner_color, 2)
+        cv2.putText(frame, banner_text, (640 - (bw // 2), by1 + bh + 7), 
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.7, banner_color, 2, cv2.LINE_AA)
 
         # Draw details inside HUD (crisp, smaller fonts for 720p display)
         detail_color = (255, 255, 255)
