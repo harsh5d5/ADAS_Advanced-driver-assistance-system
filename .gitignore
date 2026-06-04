@@ -1,0 +1,21 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# PyTorch/HuggingFace Cache
+.cache/
+
+# Large files / media
+*.mp4
+*.pt
+yolov8n.pt
+
+# Output / generated point clouds
+output/
+pointclouds/
+*.ply
+
+# Open3D temporary capture files
+ScreenCamera_*
+ScreenCapture_*
