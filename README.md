@@ -299,14 +299,9 @@ Objects are projected into 3D space using pinhole camera geometry with class-bas
 ## 📜 License
 
 This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
-
+ 
 ---
 
-<div align="center">
-
-### ⭐ If you found this project useful, please give it a star!
-
-<br/>
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:0D1117,50:161B22,100:00E676&height=120&section=footer&animation=fadeIn" width="100%"/>
 
