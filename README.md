@@ -296,9 +296,7 @@ Objects are projected into 3D space using pinhole camera geometry with class-bas
 
 <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif" width="100%">
 
-## 📜 License
 
-This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
  
 ---
 
