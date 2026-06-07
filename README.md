@@ -1,7 +1,7 @@
 <div align="center">
 
 <!-- Animated Header -->
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0D1117,50:161B22,100:00E676&height=220&section=header&text=🚗%20ADAS%20Perception%20Pipeline&fontSize=36&fontColor=FFFFFF&animation=fadeIn&fontAlignY=35&desc=Real-Time%20Advanced%20Driver%20Assistance%20System&descSize=16&descAlignY=55&descColor=8B949E" width="100%"/>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0D1117,50:161B22,100:00E676&height=220&section=header&text=🚗%20ADAS%20Perception%20Pipeli  ne&fontSize=36&fontColor=FFFFFF&animation=fadeIn&fontAlignY=35&desc=Real-Time%20Advanced%20Driver%20Assistance%20System&descSize=16&descAlignY=55&descColor=8B949E" width="100%"/>
 
 <!-- Animated Typing -->
 <a href="#">
